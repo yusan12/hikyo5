@@ -18,6 +18,6 @@ class Thread extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'user_id', 'is_user_checked', 'latest_comment_time'
+        'name', 'user_id', 'place', 'introduction', 'lank', 'time_from_tokyo', 'how_much_from_tokyo', 'caution'
     ];
 }

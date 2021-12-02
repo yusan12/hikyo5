@@ -4,16 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\ThreadRequest;
-use App\Message;
-use App\Thread;
-use Carbon\Carbon;
+use App\Services\ThreadService;
 use Illuminate\Support\Facades\Auth;
-
+use Exception;
 class ThreadController extends Controller
 {
-    public function __construct()
+    /**
+     * @var threadService
+     */
+    protected $thread_service;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @param  ThreadService  $thread_service
+     * @return void
+     */
+    public function __construct(
+        ThreadService $thread_service // インジェクション
+        )
     {
         $this->middleware('auth')->except('index');
+        $this->thread_service = $thread_service; // プロパティに代入する。
     }
 
     /**
@@ -44,22 +56,15 @@ class ThreadController extends Controller
      */
     public function store(ThreadRequest $request)
     {
-        // save Thread
-        $thread = new Thread();
-        $thread->name = $request->name;
-        $thread->user_id = Auth::id();
-        $thread->place = $request->place;
-        $thread->introduction = $request->introduction;
-        $thread->time_from_tokyo = $request->time_from_tokyo;
-        $thread->how_much_from_tokyo = $request->how_much_from_tokyo;
-        $thread->caution = $request->caution;
-        $thread->save();
-        // save Message
-        $message = new Message();
-        $message->body = $request->content;
-        $message->user_id = Auth::id();
-        $message->thread_id = $thread->id;
-        $message->save();
+        try {
+        $data = $request->only(
+                ['name', 'content', 'place', 'introduction', 'time_from_tokyo', 'how_much_from_tokyo', 'caution']
+            );
+            $this->thread_service->createNewThread($data, Auth::id()); // new せずとも $this-> の形で呼び出せる（インジェクションした為）。
+        } catch (Exception $error) {
+            return redirect()->route('threads.index')->with('error', 'スレッドの新規作成に失敗しました。');
+        }
+
         // redirect to index method
         return redirect()->route('threads.index')->with('success', 'スレッドの新規作成が完了しました。');
     }
