@@ -2,30 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Requests\ThreadRequest;
-use App\Services\ThreadService;
-use Illuminate\Support\Facades\Auth;
-use Exception;
-class ThreadController extends Controller
+use Illuminate\Http\MessageRequest;
+
+class MessageController extends Controller
 {
     /**
-     * @var threadService
+     * The MessageService implementation.
+     *
+     * @var MessageService
      */
-    protected $thread_service;
+    protected $message_service;
 
     /**
      * Create a new controller instance.
      *
-     * @param  ThreadService  $thread_service
      * @return void
      */
     public function __construct(
-        ThreadService $thread_service // インジェクション
+        MessageService $message_service
         )
     {
-        $this->middleware('auth')->except('index');
-        $this->thread_service = $thread_service; // プロパティに代入する。
+        $this->middleware('auth');
+        $this->message_service = $message_service;
     }
 
     /**
@@ -35,8 +33,7 @@ class ThreadController extends Controller
      */
     public function index()
     {
-        $threads = $this->thread_service->getThreads(3);
-        return view('threads.index', compact('threads'));
+        //
     }
 
     /**
@@ -52,22 +49,20 @@ class ThreadController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  App\Http\Requests\ThreadRequest  $request
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function store(ThreadRequest $request)
+    public function store(MessageRequest $request, int $id)
     {
         try {
-        $data = $request->only(
-                ['name', 'content', 'place', 'introduction', 'time_from_tokyo', 'how_much_from_tokyo', 'caution']
-            );
-            $this->thread_service->createNewThread($data, Auth::id()); // new せずとも $this-> の形で呼び出せる（インジェクションした為）。
+            $data = $request->validated();
+            $data['user_id'] = Auth::id();
+            $this->message_service->createNewMessage($data, $id);
         } catch (Exception $error) {
-            return redirect()->route('threads.index')->with('error', 'スレッドの新規作成に失敗しました。');
+            return redirect()->route('threads.index')->with('error', 'メッセージの投稿ができませんでした。');
         }
-
-        // redirect to index method
-        return redirect()->route('threads.index')->with('success', 'スレッドの新規作成が完了しました。');
+        return redirect()->route('threads.index')->with('success', 'メッセージを投稿しました');
     }
 
     /**
