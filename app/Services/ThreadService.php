@@ -54,7 +54,7 @@ class ThreadService
             throw new Exception($error->getMessage());
         }
         DB::commit();
-        
+
         return $thread;
     }
     /**
@@ -91,5 +91,18 @@ class ThreadService
             'user_id' => $user_id,
             'thread_id' => $thread_id
         ];
+    }
+
+    /**
+     * Get paginated threads
+     *
+     * @param integer $per_page
+     * @return Thread $threads
+     */
+    public function getThreads(int $per_page)
+    {
+        $threads = $this->thread_repository->getPaginatedThreads($per_page);
+        $threads->load('user', 'messages.user');
+        return $threads;
     }
 }
