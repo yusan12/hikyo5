@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,13 +9,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', function () {
     return view('welcome');
 });
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::resource('/threads', 'ThreadController');
+Route::resource('/threads', 'ThreadController')->except(['create', 'update']);
 Route::resource('/threads/{thread}/messages', 'MessageController')->except(['create', 'update']);

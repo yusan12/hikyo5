@@ -1,15 +1,19 @@
 <?php
+
 namespace App\Services;
+
 use Exception;
 use App\Repositories\ThreadRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+
 class MessageService
 {
     /**
      * @var ThreadRepository
      */
     protected $thread_repository;
+
     /**
      * ThreadService constructor.
      *
@@ -40,6 +44,7 @@ class MessageService
             throw new Exception($error->getMessage());
         }
         DB::commit();
+
         return $message;
     }
 }
