@@ -1,24 +1,21 @@
 <?php
 namespace App\Services;
-
 use Exception;
 use App\Repositories\MessageRepository;
 use App\Repositories\ThreadRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
 class ThreadService
 {
     /**
      * @var MessageRepository
      */
     protected $message_repository;
-
     /**
      * @var ThreadRepository
      */
     protected $thread_repository;
-
     /**
      * ThreadService constructor.
      *
@@ -54,7 +51,6 @@ class ThreadService
             throw new Exception($error->getMessage());
         }
         DB::commit();
-
         return $thread;
     }
     /**

@@ -1,6 +1,9 @@
 <?php
 namespace App\Repositories;
+
 use App\Thread;
+use Carbon\Carbon;
+
 class ThreadRepository
 {
     /**
@@ -19,7 +22,6 @@ class ThreadRepository
     /**
      * Create new Thread.
      *
-     * @param array $data
      * @return Thread $thread
      */
     public function create(array $data)
@@ -38,13 +40,19 @@ class ThreadRepository
         return $this->thread->paginate($per_page);
     }
 
+    /**
+     * Find a thread by id
+     *
+     * @param int $id
+     * @return Thread $thread
+     */
     public function findById(int $id)
     {
         return $this->thread->find($id);
     }
 
     /**
-     * Update thread latest_comment_time
+     * Find a thread by id
      *
      * @param int $id
      * @return Thread $thread
@@ -52,7 +60,6 @@ class ThreadRepository
     public function updateTime(int $id)
     {
         $thread = $this->findById($id);
-        $thread->latest_comment_time = Carbon::now();
         return $thread->save();
     }
 }

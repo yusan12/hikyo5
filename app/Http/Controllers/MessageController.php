@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\MessageRequest;
+use Illuminate\Http\Request;
+use App\Http\Requests\MessageRequest;
+use App\Services\MessageService;
+use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
@@ -20,8 +23,7 @@ class MessageController extends Controller
      */
     public function __construct(
         MessageService $message_service
-        )
-    {
+    ) {
         $this->middleware('auth');
         $this->message_service = $message_service;
     }
@@ -62,6 +64,7 @@ class MessageController extends Controller
         } catch (Exception $error) {
             return redirect()->route('threads.index')->with('error', 'メッセージの投稿ができませんでした。');
         }
+
         return redirect()->route('threads.index')->with('success', 'メッセージを投稿しました');
     }
 
