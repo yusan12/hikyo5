@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Requests\MessageRequest;
-use App\Services\MessageService;
-use App\Services\ImageService;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use App\Image;
+use Illuminate\Http\Request;
+use App\Services\ImageService;
+use App\Services\MessageService;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\MessageRequest;
 
 class MessageController extends Controller
 {
@@ -49,7 +48,6 @@ class MessageController extends Controller
     {
         //
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -59,7 +57,6 @@ class MessageController extends Controller
     {
         //
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -74,17 +71,15 @@ class MessageController extends Controller
             $data['user_id'] = Auth::id();
             $message = $this->message_service->createNewMessage($data, $id);
 
-            $images = $request->file('images'); // 投稿された画像を $images に代入
+            $images = $request->file('images');
             if ($images) {
                 $this->image_service->createNewImages($images, $message->id);
             }
         } catch (Exception $error) {
             return redirect()->route('threads.show', $id)->with('error', 'メッセージの投稿ができませんでした。');
         }
-
         return redirect()->route('threads.show', $id)->with('success', 'メッセージを投稿しました');
     }
-
     /**
      * Display the specified resource.
      *
@@ -95,7 +90,6 @@ class MessageController extends Controller
     {
         //
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -106,7 +100,6 @@ class MessageController extends Controller
     {
         //
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -118,7 +111,6 @@ class MessageController extends Controller
     {
         //
     }
-
     /**
      * Remove the specified resource from storage.
      *
