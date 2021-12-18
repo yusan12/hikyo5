@@ -1,6 +1,9 @@
 <?php
+
 namespace App;
+
 use Illuminate\Database\Eloquent\Model;
+
 class Image extends Model
 {
     /**
@@ -9,6 +12,7 @@ class Image extends Model
      * @var string
      */
     protected $table = 'images';
+
     /**
      * The attributes that are mass assignable.
      *

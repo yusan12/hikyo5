@@ -17,13 +17,11 @@ class Message extends Model
     protected $fillable = [
         'body', 'thread_id', 'user_id'
     ];
-
     public function user()
     {
         return $this->belongsTo('App\User');
     }
 
-    // 略
     public function images()
     {
         return $this->hasMany('App\Image');

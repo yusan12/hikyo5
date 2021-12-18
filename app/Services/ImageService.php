@@ -1,16 +1,21 @@
 <?php
+
 namespace App\Services;
+
 use Exception;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\ImageRepository;
 use Illuminate\Support\Facades\Storage;
+
 class ImageService
 {
     /**
      * @var ImageRepository
      */
     protected $image_repository;
+
     /**
      * ImageService constructor.
      *
@@ -48,6 +53,7 @@ class ImageService
             throw new Exception($error->getMessage());
         }
         DB::commit();
+
         return $image;
     }
 

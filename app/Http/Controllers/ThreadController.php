@@ -2,8 +2,8 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\ThreadRequest;
-use App\Services\ThreadService;
 use App\Repositories\ThreadRepository;
+use App\Services\ThreadService;
 use Illuminate\Support\Facades\Auth;
 use Exception;
 class ThreadController extends Controller
@@ -14,14 +14,12 @@ class ThreadController extends Controller
      * @var ThreadService
      */
     protected $thread_service;
-
     /**
      * The ThreadRepository implementation.
      *
      * @var ThreadRepository
      */
     protected $thread_repository;
-
     /**
      * Create a new controller instance.
      *
@@ -80,6 +78,7 @@ class ThreadController extends Controller
         $thread->load('messages.user', 'messages.images');
         return view('threads.show', compact('thread'));
     }
+
     /**
      * Show the form for editing the specified resource.
      *

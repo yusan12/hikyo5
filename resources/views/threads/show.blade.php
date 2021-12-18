@@ -1,6 +1,8 @@
-@inject('image_service', 'App\Services\ImageService')
 @inject('message_service', 'App\Services\MessageService')
+@inject('image_service', 'App\Services\ImageService')
+
 @extends('layouts.app')
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
