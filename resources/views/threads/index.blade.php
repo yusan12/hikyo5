@@ -26,15 +26,7 @@
                         </div>
                     @endforeach
                     <div class="card-footer">
-                        <form method="POST" action="{{ route('messages.store', $thread->id) }}" class="mb-4">
-                            @csrf
-                            <div class="form-group">
-                                <label for="thread-first-content">内容</label>
-                                <textarea name="body" class="form-control" id="thread-first-content" rows="3"
-                                    required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">書き込む</button>
-                        </form>
+                        @include('components.message-create', compact('thread'))
                         <a href="{{ route('threads.show', $thread->id) }}">全部読む</a>
                         <a href="{{ route('threads.show', $thread->id) }}">最新50</a>
                         <a href="{{ route('threads.show', $thread->id) }}">1-100</a>
@@ -85,6 +77,10 @@
                             <label for="thread-first-content">内容</label>
                             <textarea name="content" class="form-control" id="thread-first-content" rows="3"
                                 required></textarea>
+                        </div>
+                        <div class="form-group">
+                                <label for="message-images">画像</label>
+                                <input type="file" class="form-control-file" id="message-images" name="images[]" multiple>
                         </div>
                         <button type="submit" class="btn btn-primary">スレッド作成</button>
                     </form>

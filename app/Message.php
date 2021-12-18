@@ -22,4 +22,10 @@ class Message extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    // 略
+    public function images()
+    {
+        return $this->hasMany('App\Image');
+    }
 }
