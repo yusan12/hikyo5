@@ -23,7 +23,7 @@ class CreateImagesTable extends Migration
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('thread_id')->references('id')->on('threads');
-            $table->foreign('message_id')->references('id')->on('messages');
+            $table->foreign('message_id')->references('id')->on('messages')->onDelete('cascade');
         });
     }
 
